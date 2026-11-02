@@ -13,6 +13,7 @@
     - _Verify: npm test --workspace backend -- tests/test_health.py_
     - _Verify: npm test --workspace backend -- tests/test_seed.py_
     - _Verify: npm test --workspace frontend -- app.spec_
+    - _Issue: #1_
   - [ ] 1.2 Project setup: the API every screen calls
     - Build every endpoint of the `## API contract` in `design.md` as blueprints under `backend/app/api/v1/` with Marshmallow validation, services and repositories: auth (register, login, refresh, logout, forgot-password, reset-password, change-password), users (profile, addresses, my reviews), catalog (products, search, product details, reviews list, categories, brands, storefront home, newsletter), cart (items, coupon, merge), wishlist, checkout (summary, place-order), orders (list, detail, cancel), payments (mock gateway, refunds), reviews (submit), admin (products, images, variants, bulk, categories, brands, customers, orders, status, refund, invoice, export, inventory, movements, coupons, reviews, users, audit logs), analytics (overview, sales) and reports (data, CSV export).
     - Implement the business rules in services: backend totals (line, subtotal, coupon, shipping, tax, total), coupon validation, transactional stock reservation, order number generation, status transitions, cancellation with stock release and immediate full mock refund, audit log writes, permission decorators and ownership checks, rate limiting on the auth endpoints, and the mock gateway that accepts a 16-digit card with a future expiry, fails on a card ending `0000` and cancels on `9999` without storing card data.
@@ -25,6 +26,7 @@
     - _Verify: npm test --workspace backend -- tests/test_cart.py_
     - _Verify: npm test --workspace backend -- tests/test_checkout.py_
     - _Verify: npm test --workspace backend -- tests/test_admin.py_
+    - _Issue: #2_
 
 - [ ] 2. Customer sign-in, registration and password reset
   - [ ] 2.1 Sign-in, registration and password reset screens
@@ -35,6 +37,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/auth/**, frontend/src/app/core/auth/**, frontend/src/app/core/guards/**, frontend/src/app/core/interceptors/**, frontend/src/app/app.routes.ts_
     - _Verify: npm test --workspace frontend -- auth_
+    - _Issue: #3_
 
 - [ ] 3. Storefront home page
   - [ ] 3.1 Home page with header, hero, product sections and newsletter
@@ -45,6 +48,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/storefront/**, frontend/src/app/app.routes.ts_
     - _Verify: npm test --workspace frontend -- home_
+    - _Issue: #4_
 
 - [ ] 4. Product catalog with search and filters
   - [ ] 4.1 Catalog page with search, filters, sorting and pagination
@@ -55,6 +59,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/products/catalog/**, frontend/src/app/products/filters/**, frontend/src/app/products/search/**, frontend/src/app/app.routes.ts_
     - _Verify: npm test --workspace frontend -- catalog_
+    - _Issue: #5_
 
 - [ ] 5. Product details page
   - [ ] 5.1 Product details with gallery, variants, reviews and related products
@@ -65,6 +70,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/products/details/**, frontend/src/app/products/gallery/**, frontend/src/app/products/reviews/**, frontend/src/app/app.routes.ts_
     - _Verify: npm test --workspace frontend -- details_
+    - _Issue: #6_
 
 - [ ] 6. Shopping cart
   - [ ] 6.1 Cart drawer and cart page with backend totals
@@ -75,6 +81,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/cart/**, frontend/src/app/core/cart/**, frontend/src/app/app.routes.ts_
     - _Verify: npm test --workspace frontend -- cart_
+    - _Issue: #7_
 
 - [ ] 7. Wishlist
   - [ ] 7.1 Wishlist page and wishlist controls
@@ -85,6 +92,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/wishlist/**, frontend/src/app/app.routes.ts_
     - _Verify: npm test --workspace frontend -- wishlist_
+    - _Issue: #8_
 
 - [ ] 8. Checkout and mock payment
   - [ ] 8.1 Multi-step checkout with mock card payment and confirmation
@@ -95,6 +103,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/checkout/**, frontend/src/app/app.routes.ts_
     - _Verify: npm test --workspace frontend -- checkout_
+    - _Issue: #9_
 
 - [ ] 9. Customer account and order history
   - [ ] 9.1 Account overview, profile, addresses and password
@@ -104,6 +113,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/account/overview/**, frontend/src/app/account/profile/**, frontend/src/app/account/addresses/**, frontend/src/app/account/account.routes.ts_
     - _Verify: npm test --workspace frontend -- account_
+    - _Issue: #10_
   - [ ] 9.2 Order history, order details and cancellation
     - Build `/account/orders` (10 per page, newest first, with order number, date, status, payment status and total) and `/account/orders/:id` (items, totals, addresses, delivery method, payment status and status history), with a Cancel button that calls `POST /api/v1/orders/{id}/cancel` and shows "This order can no longer be cancelled" when refused.
     - Build the reviews section listing the customer's reviews with status Pending, Approved or Rejected, and write the Jest tests for the list, the detail and the cancellation rule.
@@ -111,6 +121,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/account/orders/**, frontend/src/app/account/reviews/**, frontend/src/app/account/account.routes.ts_
     - _Verify: npm test --workspace frontend -- orders_
+    - _Issue: #11_
 
 - [ ] 10. Review submission
   - [ ] 10.1 Review form on the product page
@@ -120,6 +131,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/products/reviews/review-form/**, frontend/src/app/products/details/product-details.component.ts_
     - _Verify: npm test --workspace frontend -- review-form_
+    - _Issue: #12_
 
 - [ ] 11. Admin dashboard overview
   - [ ] 11.1 Admin shell and dashboard overview
@@ -129,6 +141,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/layout/**, frontend/src/app/admin/overview/**, frontend/src/app/admin/admin.routes.ts, frontend/src/app/app.routes.ts_
     - _Verify: npm test --workspace frontend -- overview_
+    - _Issue: #13_
 
 - [ ] 12. Admin product management
   - [ ] 12.1 Product table, product form, images and variants
@@ -139,6 +152,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/products/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-products_
+    - _Issue: #14_
 
 - [ ] 13. Admin category and brand management
   - [ ] 13.1 Category tree and brand list
@@ -148,6 +162,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/categories/**, frontend/src/app/admin/brands/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-categories_
+    - _Issue: #15_
 
 - [ ] 14. Admin customer management
   - [ ] 14.1 Customer directory and customer profile
@@ -157,6 +172,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/customers/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-customers_
+    - _Issue: #16_
 
 - [ ] 15. Admin order management
   - [ ] 15.1 Order table, order details and status changes
@@ -166,6 +182,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/orders/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-orders_
+    - _Issue: #17_
   - [ ] 15.2 Printable invoice and CSV export
     - Build the printable invoice page from `GET /api/v1/admin/orders/{id}/invoice` (order number, customer, items, totals and date) and the "Export CSV" download of the orders that match the current search and filters.
     - Write the Jest tests for the invoice content and the export request.
@@ -173,6 +190,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/orders/invoice/**, frontend/src/app/admin/orders/order-export.service.ts_
     - _Verify: npm test --workspace frontend -- invoice_
+    - _Issue: #18_
 
 - [ ] 16. Admin inventory management
   - [ ] 16.1 Inventory table, stock adjustment and movement history
@@ -182,6 +200,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/inventory/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-inventory_
+    - _Issue: #19_
 
 - [ ] 17. Admin coupon management
   - [ ] 17.1 Coupon list, coupon form and redemption tracking
@@ -191,6 +210,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/coupons/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-coupons_
+    - _Issue: #20_
 
 - [ ] 18. Admin reports
   - [ ] 18.1 Reports with charts, CSV export and print
@@ -200,6 +220,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/reports/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-reports_
+    - _Issue: #21_
 
 - [ ] 19. Admin review moderation
   - [ ] 19.1 Review queue with approve and reject
@@ -209,6 +230,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/reviews/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-reviews_
+    - _Issue: #22_
 
 - [ ] 20. Admin users and audit log
   - [ ] 20.1 Admin users screen
@@ -218,6 +240,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/users/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-users_
+    - _Issue: #23_
   - [ ] 20.2 Audit log screen
     - Build `/admin/audit` from `GET /api/v1/admin/audit-logs`: the entries newest first with person, action, record and date, 20 per page, filtered by person, record type and date range.
     - Write the Jest tests for the list and the filters.
@@ -225,6 +248,7 @@
     - _Depends: 1.2_
     - _Files: frontend/src/app/admin/audit/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-audit_
+    - _Issue: #24_
 
 - [ ] 21. Accessibility and responsive polish
   - [ ] 21.1 Keyboard, focus, contrast and responsive checks across the app
@@ -234,3 +258,4 @@
     - _Depends: 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1, 9.1, 9.2, 11.1, 12.1, 13.1, 14.1, 15.1, 16.1, 17.1, 18.1, 19.1, 20.1, 20.2_
     - _Files: frontend/src/app/shared/**, frontend/src/styles.css, frontend/src/app/core/a11y/**, frontend/src/app/**/*.spec.ts_
     - _Verify: npm test --workspace frontend -- a11y_
+    - _Issue: #25_
