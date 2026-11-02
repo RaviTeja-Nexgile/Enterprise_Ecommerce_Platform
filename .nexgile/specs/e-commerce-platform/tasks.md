@@ -1,0 +1,236 @@
+# Tasks: Enterprise-Grade E-Commerce Platform
+
+- [ ] 1. Project setup
+  - [ ] 1.1 Project setup: repository, Flask API skeleton and Angular workspace
+    - Create the root `package.json` with `install:all`, `test` and `dev` scripts, `README.md` with the commands of `## Build and run`, and `.gitignore` with `.env`, `backend/.venv/`, `backend/uploads/`, `*.db` and `node_modules/`.
+    - Build the Flask app factory in `backend/app/__init__.py` with config from environment variables, the error envelope handler, `GET /api/health`, and the SQLAlchemy models, Flask-Migrate migrations and seed script for every table in `design.md` (users, roles, permissions, user_roles, role_permissions, refresh_tokens, password_reset_tokens, categories, brands, products, product_images, product_variants, product_attributes, product_attribute_values, product_variant_values, inventory, inventory_movements, addresses, carts, cart_items, wishlists, wishlist_items, orders, order_items, order_status_history, payments, coupons, coupon_redemptions, reviews, audit_logs, newsletter_subscribers), with `PRAGMA foreign_keys = ON`, integer-cent money columns and the indexes the design lists.
+    - The seed script creates the five test logins of `## Test logins` with Argon2id hashes, at least 8 categories, at least 30 published products with images, brands, variants, inventory, sample orders in different statuses, reviews, coupons and inventory movements; it does nothing when the database already holds users and never creates the test logins when `NODE_ENV` is `production`.
+    - Create the Angular workspace in `frontend/` with the `core/` API client, auth service, interceptors, guards and models, the `shared/` components (button, field, card, table, dialog, toast, skeleton, empty state, pagination), the app shell with lazy routes for every feature folder, `frontend/src/styles/tokens.css` with the colour, type, spacing and radius tokens of `## Look and feel`, the `/api` proxy to `127.0.0.1:5001`, and `@playwright/test` with an `e2e/` folder holding `.gitkeep` that Jest ignores.
+    - `npm run dev` starts Mailpit, applies migrations, seeds an empty database, then starts the API on `127.0.0.1:5001` and the Angular dev server on `127.0.0.1:$PORT`.
+    - _Requirements: 22.1, 22.2, 22.4_
+    - _Files: package.json, README.md, .gitignore, .env.example, backend/**, frontend/package.json, frontend/angular.json, frontend/jest.config.js, frontend/src/main.ts, frontend/src/index.html, frontend/src/styles.css, frontend/src/styles/tokens.css, frontend/src/app/app.routes.ts, frontend/src/app/app.config.ts, frontend/src/app/core/**, frontend/src/app/shared/**, frontend/src/environments/**, frontend/proxy.conf.json, frontend/e2e/.gitkeep_
+    - _Verify: npm run install:all_
+    - _Verify: npm test --workspace backend -- tests/test_health.py_
+    - _Verify: npm test --workspace backend -- tests/test_seed.py_
+    - _Verify: npm test --workspace frontend -- app.spec_
+  - [ ] 1.2 Project setup: the API every screen calls
+    - Build every endpoint of the `## API contract` in `design.md` as blueprints under `backend/app/api/v1/` with Marshmallow validation, services and repositories: auth (register, login, refresh, logout, forgot-password, reset-password, change-password), users (profile, addresses, my reviews), catalog (products, search, product details, reviews list, categories, brands, storefront home, newsletter), cart (items, coupon, merge), wishlist, checkout (summary, place-order), orders (list, detail, cancel), payments (mock gateway, refunds), reviews (submit), admin (products, images, variants, bulk, categories, brands, customers, orders, status, refund, invoice, export, inventory, movements, coupons, reviews, users, audit logs), analytics (overview, sales) and reports (data, CSV export).
+    - Implement the business rules in services: backend totals (line, subtotal, coupon, shipping, tax, total), coupon validation, transactional stock reservation, order number generation, status transitions, cancellation with stock release and immediate full mock refund, audit log writes, permission decorators and ownership checks, rate limiting on the auth endpoints, and the mock gateway that accepts a 16-digit card with a future expiry, fails on a card ending `0000` and cancels on `9999` without storing card data.
+    - Write the pytest suite that starts its own temporary SQLite database per module, runs the migrations against it and calls each endpoint through the Flask test client, including the two-thread test for the last unit of stock.
+    - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 2.7, 2.8, 2.10, 3.2, 4.1, 4.2, 4.3, 4.4, 4.5, 4.8, 5.1, 5.4, 5.5, 6.1, 6.2, 6.3, 6.4, 6.5, 6.7, 6.9, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 8.10, 8.12, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 11.1, 11.2, 11.3, 11.4, 11.5, 12.1, 12.2, 12.3, 12.4, 12.5, 12.6, 12.7, 12.8, 12.9, 12.10, 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 14.1, 14.2, 14.3, 14.4, 14.5, 15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 15.7, 15.8, 16.1, 16.2, 16.3, 16.4, 16.5, 16.6, 17.1, 17.2, 17.3, 17.4, 17.5, 17.6, 18.1, 18.2, 18.3, 18.4, 19.1, 19.2, 19.3, 19.4, 20.1, 20.2, 20.3, 22.3, 23.1, 23.5_
+    - _Depends: 1.1_
+    - _Files: backend/app/api/**, backend/app/services/**, backend/app/repositories/**, backend/app/schemas/**, backend/app/utils/**, backend/app/middleware/**, backend/app/config/**, backend/app/models/**, backend/tests/**, backend/run.py_
+    - _Verify: npm test --workspace backend -- tests/test_auth.py_
+    - _Verify: npm test --workspace backend -- tests/test_catalog.py_
+    - _Verify: npm test --workspace backend -- tests/test_cart.py_
+    - _Verify: npm test --workspace backend -- tests/test_checkout.py_
+    - _Verify: npm test --workspace backend -- tests/test_admin.py_
+
+- [ ] 2. Customer sign-in, registration and password reset
+  - [ ] 2.1 Sign-in, registration and password reset screens
+    - Build `/sign-in`, `/register`, `/forgot-password` and `/reset-password` as reactive forms with visible labels, `aria-invalid` and `aria-describedby` error links, the exact messages of requirement 1, the password strength rule, the "If the email is registered, a reset link has been sent" confirmation, and the "This reset link is no longer valid" state.
+    - Wire the auth service to the API, keep the access token in memory, refresh it on 401, revoke it on sign-out, and route each role to its first screen after sign-in (Super Admin and Admin to `/admin`, Inventory Manager to `/admin/inventory`, Order Manager to `/admin/orders`, Customer to `/`); `/` opens the home page for everyone.
+    - Style the screens as a centred card on the `--color-bg` background with the primary button and field states of `## Look and feel`, and write the Jest tests for the forms, the guards and the interceptor.
+    - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 1.10, 1.11, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.11, 23.6_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/auth/**, frontend/src/app/core/auth/**, frontend/src/app/core/guards/**, frontend/src/app/core/interceptors/**, frontend/src/app/app.routes.ts_
+    - _Verify: npm test --workspace frontend -- auth_
+
+- [ ] 3. Storefront home page
+  - [ ] 3.1 Home page with header, hero, product sections and newsletter
+    - Build `/` from `GET /api/v1/storefront/home`: hero banner, featured categories, trending, best-selling, new arrivals, promotional offers, testimonials, newsletter form and footer, at most 8 products per section, with skeleton placeholders while loading.
+    - Build the storefront header (logo, category mega-menu, search with autocomplete, wishlist, cart icon with count badge, account menu) and footer, with category clicks opening `/products?category=...` and product cards opening the detail page.
+    - Style it as `## Look and feel` describes the home screen on desktop and phone, and write the Jest tests for the sections, the newsletter messages and the skeletons.
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 21.4, 21.5, 23.2, 23.3, 23.4, 23.7_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/storefront/**, frontend/src/app/app.routes.ts_
+    - _Verify: npm test --workspace frontend -- home_
+
+- [ ] 4. Product catalog with search and filters
+  - [ ] 4.1 Catalog page with search, filters, sorting and pagination
+    - Build `/products` from `GET /api/v1/products`: a 12-per-page grid, search bar with debounced autocomplete from `GET /api/v1/products/search` (up to 6 suggestions within 300 ms), filter panel for category, brand, price range, availability and minimum rating, sort control, result count, "Clear all filters", pagination that keeps the filters, and the "No products match your search" empty state.
+    - On a phone, show the filters in a bottom sheet opened from a "Filters" button; read the `category` query parameter so the home page's category tiles land filtered.
+    - Style it as `## Look and feel` describes the catalog screen, and write the Jest tests for the filter combination, the sort options and the empty state.
+    - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 21.4, 21.5, 23.2, 23.3_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/products/catalog/**, frontend/src/app/products/filters/**, frontend/src/app/products/search/**, frontend/src/app/app.routes.ts_
+    - _Verify: npm test --workspace frontend -- catalog_
+
+- [ ] 5. Product details page
+  - [ ] 5.1 Product details with gallery, variants, reviews and related products
+    - Build `/products/:slug` from `GET /api/v1/products/{id_or_slug}`: image gallery with thumbnails and click-to-zoom, name, SKU, prices and discount, stock availability, description, specifications, variant chips that update SKU, price and stock, quantity selector, "Add to cart", "Add to wishlist", rating summary, approved reviews, related products and recently viewed products (at most 6, kept in local storage).
+    - Disable "Add to cart" with "Out of stock" when the selected product or variant has no stock, send a signed-out wishlist click to `/sign-in`, and write the Jest tests for the gallery, the variant switch and the out-of-stock state.
+    - Style it as `## Look and feel` describes the product details screen, with the sticky Add to cart bar on phone.
+    - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 21.4, 21.5, 23.2_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/products/details/**, frontend/src/app/products/gallery/**, frontend/src/app/products/reviews/**, frontend/src/app/app.routes.ts_
+    - _Verify: npm test --workspace frontend -- details_
+
+- [ ] 6. Shopping cart
+  - [ ] 6.1 Cart drawer and cart page with backend totals
+    - Build the cart drawer and `/cart` from `GET /api/v1/cart`: line items with quantity steppers, remove, coupon field, subtotal, discount, estimated tax and total as the API returns them, "Added to cart" toast on add, the item count badge in the header, "Only N left in stock" when a quantity exceeds stock, and "Out of stock" items excluded from the total.
+    - Keep a guest cart with an `X-Guest-Token` header, restore the saved cart on sign-in and merge the guest cart through `POST /api/v1/cart/merge`; never send a price with a cart change.
+    - Style it as `## Look and feel` describes the cart, and write the Jest tests for the quantity change, the remove and the merge.
+    - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 21.2, 21.4, 21.5, 23.1, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/cart/**, frontend/src/app/core/cart/**, frontend/src/app/app.routes.ts_
+    - _Verify: npm test --workspace frontend -- cart_
+
+- [ ] 7. Wishlist
+  - [ ] 7.1 Wishlist page and wishlist controls
+    - Build `/wishlist` from `GET /api/v1/wishlist`: saved products with price, stock availability, "Add to cart", "Move to cart" and "Remove", the "Added to wishlist" and "Already in your wishlist" messages, and the "Unavailable" state with "Add to cart" disabled for archived or out-of-stock products.
+    - Add the wishlist toggle to the product cards and the product details buy box, and write the Jest tests for the duplicate, the move and the unavailable state.
+    - Style it as `## Look and feel` describes the lists and cards, and keep the wishlist across sign-ins.
+    - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 21.4, 21.5, 23.3, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/wishlist/**, frontend/src/app/app.routes.ts_
+    - _Verify: npm test --workspace frontend -- wishlist_
+
+- [ ] 8. Checkout and mock payment
+  - [ ] 8.1 Multi-step checkout with mock card payment and confirmation
+    - Build `/checkout` as the steps Customer information, Shipping address, Billing address, Delivery method, Order review, Payment and Confirmation, reading `GET /api/v1/checkout/summary` for items, subtotal, coupon discount, shipping fee, estimated tax and total, with saved addresses from the address book and the delivery methods and fees the API returns.
+    - Validate the coupon through `POST /api/v1/cart/coupon` and show "This coupon cannot be used for this order" when refused; place the order through `POST /api/v1/checkout/place-order` with the card number, expiry and security code only, show "Some items are no longer available" with the affected items, and on failure or cancellation show "Payment was not completed" with "Try again"; on success open `/checkout/confirmation/:orderNumber`.
+    - Style it as `## Look and feel` describes the checkout, and write the Jest tests for the step order, the coupon refusal and the payment failure.
+    - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 8.10, 8.11, 8.12, 21.3, 21.4, 21.5, 23.1, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/checkout/**, frontend/src/app/app.routes.ts_
+    - _Verify: npm test --workspace frontend -- checkout_
+
+- [ ] 9. Customer account and order history
+  - [ ] 9.1 Account overview, profile, addresses and password
+    - Build `/account` with the overview (name, email, order count, total spent, latest order status), the profile form ("Profile updated"), the change password form ("Password changed") and the address book with add, edit, delete and set default.
+    - Style it as `## Look and feel` describes the account screen, with the left menu on desktop and the tab strip on phone, and write the Jest tests for the profile and address forms.
+    - _Requirements: 9.1, 9.2, 9.3, 9.4, 21.3, 21.4, 21.5, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/account/overview/**, frontend/src/app/account/profile/**, frontend/src/app/account/addresses/**, frontend/src/app/account/account.routes.ts_
+    - _Verify: npm test --workspace frontend -- account_
+  - [ ] 9.2 Order history, order details and cancellation
+    - Build `/account/orders` (10 per page, newest first, with order number, date, status, payment status and total) and `/account/orders/:id` (items, totals, addresses, delivery method, payment status and status history), with a Cancel button that calls `POST /api/v1/orders/{id}/cancel` and shows "This order can no longer be cancelled" when refused.
+    - Build the reviews section listing the customer's reviews with status Pending, Approved or Rejected, and write the Jest tests for the list, the detail and the cancellation rule.
+    - _Requirements: 9.5, 9.6, 9.7, 9.8, 9.9, 21.4, 21.5, 23.3, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/account/orders/**, frontend/src/app/account/reviews/**, frontend/src/app/account/account.routes.ts_
+    - _Verify: npm test --workspace frontend -- orders_
+
+- [ ] 10. Review submission
+  - [ ] 10.1 Review form on the product page
+    - Add the review form to the product details page for signed-in Customers: a 1 to 5 star rating and a comment of at least 10 characters, submitted through `POST /api/v1/products/{id}/reviews`, showing "Your review is awaiting approval" and "Choose a rating and write at least 10 characters" when invalid.
+    - Show the verified-purchase badge on the customer's own review, and write the Jest tests for the validation and the success message.
+    - _Requirements: 10.1, 10.2, 10.3, 21.3, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/products/reviews/review-form/**, frontend/src/app/products/details/product-details.component.ts_
+    - _Verify: npm test --workspace frontend -- review-form_
+
+- [ ] 11. Admin dashboard overview
+  - [ ] 11.1 Admin shell and dashboard overview
+    - Build the `/admin` shell (248 px sidebar with grouped links filtered by permission, top bar with the person's name and role, drawer on phone) and the overview from `GET /api/v1/admin/analytics/overview`: 8 KPI cards, revenue trend chart with daily, weekly, monthly, quarterly and yearly grouping, top-selling products, best-performing categories, the 5 most recent orders, the 5 most recent customer registrations, and the previous-period revenue change as a percentage, all recalculated when the date range changes.
+    - Style it as `## Look and feel` describes the admin and admin overview screens, and write the Jest tests for the KPI cards, the range change and the chart grouping.
+    - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5, 21.4, 21.5, 23.2_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/layout/**, frontend/src/app/admin/overview/**, frontend/src/app/admin/admin.routes.ts, frontend/src/app/app.routes.ts_
+    - _Verify: npm test --workspace frontend -- overview_
+
+- [ ] 12. Admin product management
+  - [ ] 12.1 Product table, product form, images and variants
+    - Build `/admin/products` from `GET /api/v1/admin/products`: a searchable, filterable table of 20 rows with name, SKU, category, price, stock and status, row selection and the bulk publish, unpublish and archive action.
+    - Build the create and edit form (name, SKU, category, brand, regular price, description, images, variants with their own SKU, price and stock, publish and unpublish) with "This SKU is already in use", an error beside each missing field, and the image upload that refuses anything but a JPEG or PNG of 5 MB or less with "Images must be JPEG or PNG and 5 MB or less".
+    - Style it as `## Look and feel` describes the admin tables and forms, and write the Jest tests for the duplicate SKU, the missing fields and the image rule.
+    - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5, 12.6, 12.7, 12.8, 12.9, 12.10, 21.4, 21.5, 23.1, 23.3, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/products/**, frontend/src/app/admin/admin.routes.ts_
+    - _Verify: npm test --workspace frontend -- admin-products_
+
+- [ ] 13. Admin category and brand management
+  - [ ] 13.1 Category tree and brand list
+    - Build `/admin/categories` from `GET /api/v1/admin/categories`: the tree with name, status, product count and order, create and edit with an optional parent, reorder and status change, and the "Move or archive this category's products first" refusal and "Category deleted" message.
+    - Build the brand list with create and edit, and write the Jest tests for the tree, the delete refusal and the brand form.
+    - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 21.4, 21.5, 23.3, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/categories/**, frontend/src/app/admin/brands/**, frontend/src/app/admin/admin.routes.ts_
+    - _Verify: npm test --workspace frontend -- admin-categories_
+
+- [ ] 14. Admin customer management
+  - [ ] 14.1 Customer directory and customer profile
+    - Build `/admin/customers` from `GET /api/v1/admin/customers`: a searchable table of 20 rows with name, email, registration date, account status and total spent, and the customer profile with details, addresses, order history and spending summary.
+    - Add the activate and deactivate action through `PATCH /api/v1/admin/customers/{id}`, and write the Jest tests for the search, the profile and the status toggle.
+    - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5, 21.4, 21.5, 23.3, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/customers/**, frontend/src/app/admin/admin.routes.ts_
+    - _Verify: npm test --workspace frontend -- admin-customers_
+
+- [ ] 15. Admin order management
+  - [ ] 15.1 Order table, order details and status changes
+    - Build `/admin/orders` from `GET /api/v1/admin/orders`: a table of 20 rows with order number, customer, date, status, payment status and total, search by order number and filters by status and date, and the order details with items, totals, customer, addresses, payment and full status history.
+    - Add the next-status action through `PATCH /api/v1/admin/orders/{id}/status` with "This status change is not allowed", the cancel and refund actions, and write the Jest tests for the filters, the status change and the refusal.
+    - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 21.4, 21.5, 23.1, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/orders/**, frontend/src/app/admin/admin.routes.ts_
+    - _Verify: npm test --workspace frontend -- admin-orders_
+  - [ ] 15.2 Printable invoice and CSV export
+    - Build the printable invoice page from `GET /api/v1/admin/orders/{id}/invoice` (order number, customer, items, totals and date) and the "Export CSV" download of the orders that match the current search and filters.
+    - Write the Jest tests for the invoice content and the export request.
+    - _Requirements: 15.7, 15.8, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/orders/invoice/**, frontend/src/app/admin/orders/order-export.service.ts_
+    - _Verify: npm test --workspace frontend -- invoice_
+
+- [ ] 16. Admin inventory management
+  - [ ] 16.1 Inventory table, stock adjustment and movement history
+    - Build `/admin/inventory` from `GET /api/v1/admin/inventory`: every product and variant with stock quantity, reserved stock, available stock and low-stock threshold, filters for low stock and out of stock, and the low-stock alerts list.
+    - Add the adjustment dialog with a reason through `PATCH /api/v1/admin/inventory/{id}` ("Stock cannot go below zero") and the movement history from `GET /api/v1/admin/inventory/{id}/movements`, newest first with change, reason, date and person, and write the Jest tests for the filters, the adjustment and the refusal.
+    - _Requirements: 16.1, 16.2, 16.3, 16.4, 16.5, 16.6, 21.4, 21.5, 23.3, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/inventory/**, frontend/src/app/admin/admin.routes.ts_
+    - _Verify: npm test --workspace frontend -- admin-inventory_
+
+- [ ] 17. Admin coupon management
+  - [ ] 17.1 Coupon list, coupon form and redemption tracking
+    - Build `/admin/coupons` from `GET /api/v1/admin/coupons`: the list with each coupon's status (Active, Inactive, Expired), create and edit with code, type, value, minimum order value, maximum discount, expiry date, usage limit and per-customer limit, saved as inactive, and the activate and deactivate action.
+    - Show the redemption count and the orders a coupon was used on, and write the Jest tests for the form, the duplicate code message and the redemption view.
+    - _Requirements: 17.1, 17.2, 17.3, 17.4, 17.5, 17.6, 21.4, 21.5, 23.3, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/coupons/**, frontend/src/app/admin/admin.routes.ts_
+    - _Verify: npm test --workspace frontend -- admin-coupons_
+
+- [ ] 18. Admin reports
+  - [ ] 18.1 Reports with charts, CSV export and print
+    - Build `/admin/reports` from `GET /api/v1/admin/reports/{report}`: the revenue, orders, product performance, category performance, customer acquisition and inventory reports for a chosen date range, with charts and tables, revenue grouped by day, week, month, quarter or year, and "No data in this range" in place of the charts when the range holds no orders.
+    - Add "Export CSV" and "Print", and write the Jest tests for the report switch, the empty state and the export.
+    - _Requirements: 18.1, 18.2, 18.3, 18.4, 18.5, 18.6, 21.4, 21.5, 23.3, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/reports/**, frontend/src/app/admin/admin.routes.ts_
+    - _Verify: npm test --workspace frontend -- admin-reports_
+
+- [ ] 19. Admin review moderation
+  - [ ] 19.1 Review queue with approve and reject
+    - Build `/admin/reviews` from `GET /api/v1/admin/reviews`: the queue of Pending reviews newest first with product, customer, rating and comment, a status filter, and the approve and reject actions through `PATCH /api/v1/admin/reviews/{id}`.
+    - Write the Jest tests for the queue, the filter and the approve and reject actions.
+    - _Requirements: 19.1, 19.2, 19.3, 19.4, 21.4, 21.5, 23.3, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/reviews/**, frontend/src/app/admin/admin.routes.ts_
+    - _Verify: npm test --workspace frontend -- admin-reviews_
+
+- [ ] 20. Admin users and audit log
+  - [ ] 20.1 Admin users screen
+    - Build `/admin/users` from `GET /api/v1/admin/users`: every admin account with its role and active status, and the change of role or deactivation through `PATCH /api/v1/admin/users/{id}`, shown only to a Super Admin.
+    - Write the Jest tests for the list, the role change and the keyboard operation of the table.
+    - _Requirements: 2.9, 2.10, 2.11, 21.4, 21.5, 23.4_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/users/**, frontend/src/app/admin/admin.routes.ts_
+    - _Verify: npm test --workspace frontend -- admin-users_
+  - [ ] 20.2 Audit log screen
+    - Build `/admin/audit` from `GET /api/v1/admin/audit-logs`: the entries newest first with person, action, record and date, 20 per page, filtered by person, record type and date range.
+    - Write the Jest tests for the list and the filters.
+    - _Requirements: 20.1, 20.2, 20.3, 21.4, 21.5, 23.3_
+    - _Depends: 1.2_
+    - _Files: frontend/src/app/admin/audit/**, frontend/src/app/admin/admin.routes.ts_
+    - _Verify: npm test --workspace frontend -- admin-audit_
+
+- [ ] 21. Accessibility and responsive polish
+  - [ ] 21.1 Keyboard, focus, contrast and responsive checks across the app
+    - Add the shared focus ring, dialog and drawer focus handling (focus moves in on open and back to the opener on close), the single main heading per page, the alternative text on every image and the 375 px and 1440 px layout rules to the shared components and the global stylesheet.
+    - Write the Jest tests for the focus movement, the error text links and the toast roles, and fix what they find on the screens built before this task.
+    - _Requirements: 21.1, 21.2, 21.3, 21.4, 21.5, 21.6, 21.7, 21.8, 23.7_
+    - _Depends: 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1, 9.1, 9.2, 11.1, 12.1, 13.1, 14.1, 15.1, 16.1, 17.1, 18.1, 19.1, 20.1, 20.2_
+    - _Files: frontend/src/app/shared/**, frontend/src/styles.css, frontend/src/app/core/a11y/**, frontend/src/app/**/*.spec.ts_
+    - _Verify: npm test --workspace frontend -- a11y_
