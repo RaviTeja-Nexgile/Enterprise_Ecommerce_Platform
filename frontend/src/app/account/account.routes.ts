@@ -32,22 +32,19 @@ export const ACCOUNT_ROUTES: Routes = [
       {
         path: 'orders',
         loadComponent: () =>
-          import('../shell/feature-placeholder.component').then((m) => m.FeaturePlaceholderComponent),
-        data: { heading: 'Orders', message: 'Order history is being built.' },
+          import('./orders/order-history.component').then((m) => m.OrderHistoryComponent),
         title: 'Orders',
       },
       {
         path: 'orders/:id',
         loadComponent: () =>
-          import('../shell/feature-placeholder.component').then((m) => m.FeaturePlaceholderComponent),
-        data: { heading: 'Order details', message: 'Order details are being built.' },
+          import('./orders/order-details.component').then((m) => m.OrderDetailsComponent),
         title: 'Order details',
       },
       {
         path: 'reviews',
         loadComponent: () =>
-          import('../shell/feature-placeholder.component').then((m) => m.FeaturePlaceholderComponent),
-        data: { heading: 'Reviews', message: 'Your reviews are being built.' },
+          import('./reviews/reviews.component').then((m) => m.ReviewsComponent),
         title: 'Reviews',
       },
     ],
