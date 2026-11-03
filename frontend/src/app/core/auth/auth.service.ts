@@ -16,7 +16,8 @@ import {
  *
  * The access token is kept in memory only (never in local storage); the
  * refresh token lives in an HttpOnly cookie the API sets, so JavaScript never
- * reads it. A 401 triggers one refresh attempt through `refresh()`.
+ * reads it. A 401 triggers one refresh attempt through `refresh()`
+ * (requirement 1.6), and `logout()` revokes the refresh token (1.7).
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -47,7 +48,10 @@ export class AuthService {
     );
   }
 
-  /** Rotate the refresh token and keep the new access token in memory. */
+  /**
+   * Rotate the refresh token and keep the new access token in memory.
+   * Concurrent callers share one request so a burst of 401s refreshes once.
+   */
   refresh(): Observable<AuthTokens> {
     if (this.refreshInFlight) {
       return this.refreshInFlight;
@@ -62,6 +66,7 @@ export class AuthService {
     return this.refreshInFlight;
   }
 
+  /** Revoke the refresh token and clear the in-memory session (requirement 1.7). */
   logout(): Observable<void> {
     return this.api.post<void>('auth/logout', {}).pipe(
       catchError(() => of(undefined)),
