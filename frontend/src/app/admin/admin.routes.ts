@@ -15,9 +15,20 @@ export const ADMIN_ROUTES: Routes = [
   {
     path: 'products',
     loadComponent: () =>
-      import('../shell/feature-placeholder.component').then((m) => m.FeaturePlaceholderComponent),
-    data: { heading: 'Products', message: 'Product management is being built.' },
+      import('./products/product-table.component').then((m) => m.ProductTableComponent),
     title: 'Admin products',
+  },
+  {
+    path: 'products/new',
+    loadComponent: () =>
+      import('./products/product-form.component').then((m) => m.ProductFormComponent),
+    title: 'New product',
+  },
+  {
+    path: 'products/:id',
+    loadComponent: () =>
+      import('./products/product-form.component').then((m) => m.ProductFormComponent),
+    title: 'Edit product',
   },
   {
     path: 'categories',
