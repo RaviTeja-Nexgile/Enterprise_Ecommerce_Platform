@@ -1,0 +1,65 @@
+/*
+ * Design tokens for the storefront and the admin dashboard.
+ * Values come from design.md "Look and feel".
+ */
+
+:root {
+  /* Colour */
+  --color-bg: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-text: #111827;
+  --color-text-muted: #4b5563;
+  --color-border: #d1d5db;
+  --color-primary: #1d4ed8;
+  --color-primary-hover: #1e40af;
+  --color-primary-soft: #eff3ff;
+  --color-error: #b91c1c;
+  --color-success: #047857;
+  --color-warning: #b45309;
+  --color-focus: #1d4ed8;
+
+  /* Typography */
+  --font-family-base: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-24: 24px;
+  --font-size-32: 32px;
+  --font-size-48: 48px;
+  --line-height-body: 1.5;
+  --line-height-heading: 1.2;
+  --font-weight-body: 400;
+  --font-weight-heading: 600;
+
+  /* Spacing (4 px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radius */
+  --radius-field: 8px;
+  --radius-button: 8px;
+  --radius-card: 12px;
+  --radius-dialog: 12px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --elevation-resting: 0 1px 2px rgba(17, 24, 39, 0.06);
+  --elevation-hover: 0 8px 24px rgba(17, 24, 39, 0.12);
+
+  /* Layout */
+  --header-height: 72px;
+  --sidebar-width: 248px;
+  --cart-drawer-width: 420px;
+  --content-max-width: 1280px;
+
+  /* Breakpoints (for reference in media queries) */
+  --breakpoint-phone-max: 767px;
+  --breakpoint-tablet-max: 1199px;
+}

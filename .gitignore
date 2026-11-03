@@ -1,5 +1,41 @@
-# Nexgile Greenfield: the project's local state, and your own documents
-.nexgile/greenfield/state.json
-.nexgile/greenfield/thread.jsonl
-.nexgile/greenfield/checkpoints/
-docs/input/
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python
+backend/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+backend/uploads/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Angular build output
+frontend/dist/
+frontend/.angular/
+frontend/coverage/
+
+# Playwright
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/
+
+# Logs
+*.log
+logs/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
