@@ -33,9 +33,14 @@ export const ADMIN_ROUTES: Routes = [
   {
     path: 'categories',
     loadComponent: () =>
-      import('../shell/feature-placeholder.component').then((m) => m.FeaturePlaceholderComponent),
-    data: { heading: 'Categories', message: 'Category management is being built.' },
+      import('./categories/category-tree.component').then((m) => m.CategoryTreeComponent),
     title: 'Admin categories',
+  },
+  {
+    path: 'brands',
+    loadComponent: () =>
+      import('./brands/brand-list.component').then((m) => m.BrandListComponent),
+    title: 'Admin brands',
   },
   {
     path: 'customers',
