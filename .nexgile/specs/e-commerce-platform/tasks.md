@@ -105,7 +105,7 @@
     - _Verify: npm test --workspace frontend -- checkout_
     - _Issue: #9_
 
-- [ ] 9. Customer account and order history
+- [x] 9. Customer account and order history
   - [x] 9.1 Account overview, profile, addresses and password
     - Build `/account` with the overview (name, email, order count, total spent, latest order status), the profile form ("Profile updated"), the change password form ("Password changed") and the address book with add, edit, delete and set default.
     - Style it as `## Look and feel` describes the account screen, with the left menu on desktop and the tab strip on phone, and write the Jest tests for the profile and address forms.
@@ -114,7 +114,7 @@
     - _Files: frontend/src/app/account/overview/**, frontend/src/app/account/profile/**, frontend/src/app/account/addresses/**, frontend/src/app/account/account.routes.ts_
     - _Verify: npm test --workspace frontend -- account_
     - _Issue: #10_
-  - [ ] 9.2 Order history, order details and cancellation
+  - [x] 9.2 Order history, order details and cancellation
     - Build `/account/orders` (10 per page, newest first, with order number, date, status, payment status and total) and `/account/orders/:id` (items, totals, addresses, delivery method, payment status and status history), with a Cancel button that calls `POST /api/v1/orders/{id}/cancel` and shows "This order can no longer be cancelled" when refused.
     - Build the reviews section listing the customer's reviews with status Pending, Approved or Rejected, and write the Jest tests for the list, the detail and the cancellation rule.
     - _Requirements: 9.5, 9.6, 9.7, 9.8, 9.9, 21.4, 21.5, 23.3, 23.4_
@@ -164,8 +164,8 @@
     - _Verify: npm test --workspace frontend -- admin-categories_
     - _Issue: #15_
 
-- [ ] 14. Admin customer management
-  - [ ] 14.1 Customer directory and customer profile
+- [x] 14. Admin customer management
+  - [x] 14.1 Customer directory and customer profile
     - Build `/admin/customers` from `GET /api/v1/admin/customers`: a searchable table of 20 rows with name, email, registration date, account status and total spent, and the customer profile with details, addresses, order history and spending summary.
     - Add the activate and deactivate action through `PATCH /api/v1/admin/customers/{id}`, and write the Jest tests for the search, the profile and the status toggle.
     - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5, 21.4, 21.5, 23.3, 23.4_
