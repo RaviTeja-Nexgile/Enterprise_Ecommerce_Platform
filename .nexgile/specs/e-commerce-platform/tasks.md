@@ -28,8 +28,8 @@
     - _Verify: npm test --workspace backend -- tests/test_admin.py_
     - _Issue: #2_
 
-- [ ] 2. Customer sign-in, registration and password reset
-  - [ ] 2.1 Sign-in, registration and password reset screens
+- [x] 2. Customer sign-in, registration and password reset
+  - [x] 2.1 Sign-in, registration and password reset screens
     - Build `/sign-in`, `/register`, `/forgot-password` and `/reset-password` as reactive forms with visible labels, `aria-invalid` and `aria-describedby` error links, the exact messages of requirement 1, the password strength rule, the "If the email is registered, a reset link has been sent" confirmation, and the "This reset link is no longer valid" state.
     - Wire the auth service to the API, keep the access token in memory, refresh it on 401, revoke it on sign-out, and route each role to its first screen after sign-in (Super Admin and Admin to `/admin`, Inventory Manager to `/admin/inventory`, Order Manager to `/admin/orders`, Customer to `/`); `/` opens the home page for everyone.
     - Style the screens as a centred card on the `--color-bg` background with the primary button and field states of `## Look and feel`, and write the Jest tests for the forms, the guards and the interceptor.
@@ -143,8 +143,8 @@
     - _Verify: npm test --workspace frontend -- overview_
     - _Issue: #13_
 
-- [ ] 12. Admin product management
-  - [ ] 12.1 Product table, product form, images and variants
+- [x] 12. Admin product management
+  - [x] 12.1 Product table, product form, images and variants
     - Build `/admin/products` from `GET /api/v1/admin/products`: a searchable, filterable table of 20 rows with name, SKU, category, price, stock and status, row selection and the bulk publish, unpublish and archive action.
     - Build the create and edit form (name, SKU, category, brand, regular price, description, images, variants with their own SKU, price and stock, publish and unpublish) with "This SKU is already in use", an error beside each missing field, and the image upload that refuses anything but a JPEG or PNG of 5 MB or less with "Images must be JPEG or PNG and 5 MB or less".
     - Style it as `## Look and feel` describes the admin tables and forms, and write the Jest tests for the duplicate SKU, the missing fields and the image rule.
