@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { permissionGuard } from '../core/guards/role.guard';
+
 /**
  * Admin routes. Task 11.1 adds the admin shell and overview; the other admin
  * tasks add their screens. Until then each path opens a placeholder.
@@ -44,10 +46,19 @@ export const ADMIN_ROUTES: Routes = [
   },
   {
     path: 'customers',
+    canActivate: [permissionGuard],
+    data: { permission: 'customers.manage' },
     loadComponent: () =>
-      import('../shell/feature-placeholder.component').then((m) => m.FeaturePlaceholderComponent),
-    data: { heading: 'Customers', message: 'Customer management is being built.' },
+      import('./customers/customer-table.component').then((m) => m.CustomerTableComponent),
     title: 'Admin customers',
+  },
+  {
+    path: 'customers/:id',
+    canActivate: [permissionGuard],
+    data: { permission: 'customers.manage' },
+    loadComponent: () =>
+      import('./customers/customer-profile.component').then((m) => m.CustomerProfileComponent),
+    title: 'Customer profile',
   },
   {
     path: 'orders',
