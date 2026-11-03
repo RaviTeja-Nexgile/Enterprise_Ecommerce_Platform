@@ -1,0 +1,12 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Flask REST API for the E-Commerce Platform",
+  "scripts": {
+    "test": "node scripts/run-pytest.js",
+    "dev": "node scripts/run-api.js",
+    "db:upgrade": "node scripts/run-flask.js db upgrade",
+    "db:seed": "node scripts/run-flask.js seed"
+  }
+}
