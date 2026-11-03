@@ -57,6 +57,12 @@ export const ADMIN_ROUTES: Routes = [
     title: 'Admin orders',
   },
   {
+    path: 'orders/:id/invoice',
+    loadComponent: () =>
+      import('./orders/invoice/invoice.component').then((m) => m.InvoiceComponent),
+    title: 'Invoice',
+  },
+  {
     path: 'inventory',
     loadComponent: () =>
       import('../shell/feature-placeholder.component').then((m) => m.FeaturePlaceholderComponent),
