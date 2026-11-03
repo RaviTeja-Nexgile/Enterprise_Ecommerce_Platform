@@ -15,8 +15,7 @@ export const PRODUCTS_ROUTES: Routes = [
   {
     path: ':slug',
     loadComponent: () =>
-      import('../shell/feature-placeholder.component').then((m) => m.FeaturePlaceholderComponent),
-    data: { heading: 'Product details', message: 'The product details page is being built.' },
+      import('./details/product-details.component').then((m) => m.ProductDetailsComponent),
     title: 'Product details',
   },
 ];
