@@ -39,8 +39,8 @@
     - _Verify: npm test --workspace frontend -- auth_
     - _Issue: #3_
 
-- [ ] 3. Storefront home page
-  - [ ] 3.1 Home page with header, hero, product sections and newsletter
+- [x] 3. Storefront home page
+  - [x] 3.1 Home page with header, hero, product sections and newsletter
     - Build `/` from `GET /api/v1/storefront/home`: hero banner, featured categories, trending, best-selling, new arrivals, promotional offers, testimonials, newsletter form and footer, at most 8 products per section, with skeleton placeholders while loading.
     - Build the storefront header (logo, category mega-menu, search with autocomplete, wishlist, cart icon with count badge, account menu) and footer, with category clicks opening `/products?category=...` and product cards opening the detail page.
     - Style it as `## Look and feel` describes the home screen on desktop and phone, and write the Jest tests for the sections, the newsletter messages and the skeletons.
@@ -106,7 +106,7 @@
     - _Issue: #9_
 
 - [ ] 9. Customer account and order history
-  - [ ] 9.1 Account overview, profile, addresses and password
+  - [x] 9.1 Account overview, profile, addresses and password
     - Build `/account` with the overview (name, email, order count, total spent, latest order status), the profile form ("Profile updated"), the change password form ("Password changed") and the address book with add, edit, delete and set default.
     - Style it as `## Look and feel` describes the account screen, with the left menu on desktop and the tab strip on phone, and write the Jest tests for the profile and address forms.
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 21.3, 21.4, 21.5, 23.4_
@@ -154,8 +154,8 @@
     - _Verify: npm test --workspace frontend -- admin-products_
     - _Issue: #14_
 
-- [ ] 13. Admin category and brand management
-  - [ ] 13.1 Category tree and brand list
+- [x] 13. Admin category and brand management
+  - [x] 13.1 Category tree and brand list
     - Build `/admin/categories` from `GET /api/v1/admin/categories`: the tree with name, status, product count and order, create and edit with an optional parent, reorder and status change, and the "Move or archive this category's products first" refusal and "Category deleted" message.
     - Build the brand list with create and edit, and write the Jest tests for the tree, the delete refusal and the brand form.
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.5, 13.6, 21.4, 21.5, 23.3, 23.4_
@@ -183,7 +183,7 @@
     - _Files: frontend/src/app/admin/orders/**, frontend/src/app/admin/admin.routes.ts_
     - _Verify: npm test --workspace frontend -- admin-orders_
     - _Issue: #17_
-  - [ ] 15.2 Printable invoice and CSV export
+  - [x] 15.2 Printable invoice and CSV export
     - Build the printable invoice page from `GET /api/v1/admin/orders/{id}/invoice` (order number, customer, items, totals and date) and the "Export CSV" download of the orders that match the current search and filters.
     - Write the Jest tests for the invoice content and the export request.
     - _Requirements: 15.7, 15.8, 23.4_
