@@ -38,6 +38,6 @@ test('guest registers: weak password, duplicate email, then success', async ({ p
   const unique = `shopper${Date.now()}@example.com`;
   await page.getByRole('textbox', { name: 'Email' }).fill(unique);
   await page.getByRole('button', { name: 'Create account' }).click();
-  await expect(page.getByRole('heading', { name: 'Shop the essentials, managed end to end' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Everything you need, delivered' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Sign out' })).toBeVisible();
 });

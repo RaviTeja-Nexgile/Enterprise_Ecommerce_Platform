@@ -23,7 +23,7 @@ test('customer signs in, sees the wrong-password error, and signs out', async ({
   // Correct credentials open the storefront home page (1.4).
   await page.getByRole('textbox', { name: 'Password' }).fill(password);
   await page.getByRole('button', { name: 'Sign in' }).click();
-  await expect(page.getByRole('heading', { name: 'Shop the essentials, managed end to end' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Everything you need, delivered' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Sign out' })).toBeVisible();
 
   // Sign out revokes the session and opens the sign-in page (1.7).

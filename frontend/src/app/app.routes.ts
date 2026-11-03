@@ -18,7 +18,7 @@ export const routes: Routes = [
         path: '',
         pathMatch: 'full',
         loadComponent: () =>
-          import('./home/home.component').then((m) => m.HomeComponent),
+          import('./storefront/home/home.component').then((m) => m.HomeComponent),
         title: 'E-Commerce Platform',
       },
       {
