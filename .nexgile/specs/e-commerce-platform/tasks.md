@@ -123,8 +123,8 @@
     - _Verify: npm test --workspace frontend -- orders_
     - _Issue: #11_
 
-- [ ] 10. Review submission
-  - [ ] 10.1 Review form on the product page
+- [x] 10. Review submission
+  - [x] 10.1 Review form on the product page
     - Add the review form to the product details page for signed-in Customers: a 1 to 5 star rating and a comment of at least 10 characters, submitted through `POST /api/v1/products/{id}/reviews`, showing "Your review is awaiting approval" and "Choose a rating and write at least 10 characters" when invalid.
     - Show the verified-purchase badge on the customer's own review, and write the Jest tests for the validation and the success message.
     - _Requirements: 10.1, 10.2, 10.3, 21.3, 23.4_
