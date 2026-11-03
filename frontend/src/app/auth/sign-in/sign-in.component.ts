@@ -2,13 +2,20 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { apiErrorMessage } from '../../core/api/api-error';
+import { apiErrorMessage, readApiError } from '../../core/api/api-error';
+import { AUTH_MESSAGES, FIELD_MESSAGES } from '../../core/auth/auth-messages';
 import { AuthService } from '../../core/auth/auth.service';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { CardComponent } from '../../shared/card/card.component';
 import { FieldComponent } from '../../shared/field/field.component';
 
-/** Sign-in screen. Task 2.1 completes the form states and the tests. */
+/**
+ * Sign-in screen (requirements 1.4, 1.5, 1.11, 2.1–2.5 and 23.6).
+ *
+ * A wrong password or an unknown email keeps the form open with
+ * "Invalid email or password"; a successful sign-in opens the first screen of
+ * the person's role.
+ */
 @Component({
   selector: 'app-sign-in',
   standalone: true,
@@ -18,7 +25,7 @@ import { FieldComponent } from '../../shared/field/field.component';
     <div class="auth-page">
       <app-card title="Sign in">
         @if (expired()) {
-          <p class="text-error" role="alert">Your session has expired. Please sign in again</p>
+          <p class="auth-page__notice" role="alert">{{ sessionExpiredMessage }}</p>
         }
         <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
           <app-field label="Email" controlId="sign-in-email" [error]="errorFor('email')" required>
@@ -42,7 +49,7 @@ import { FieldComponent } from '../../shared/field/field.component';
             />
           </app-field>
           @if (formError()) {
-            <p class="text-error" role="alert">{{ formError() }}</p>
+            <p class="auth-page__notice" role="alert">{{ formError() }}</p>
           }
           <app-button type="submit" variant="primary" [block]="true" [loading]="submitting()">
             Sign in
@@ -61,9 +68,18 @@ import { FieldComponent } from '../../shared/field/field.component';
         max-width: 440px;
         margin: var(--space-8) auto;
       }
+      .auth-page__notice {
+        margin: 0 0 var(--space-4);
+        padding: var(--space-3);
+        border-radius: var(--radius-field);
+        background: var(--color-primary-soft);
+        color: var(--color-text);
+        font-size: var(--font-size-14);
+      }
       .auth-page__links {
         display: flex;
         justify-content: space-between;
+        gap: var(--space-3);
         margin-top: var(--space-4);
         font-size: var(--font-size-14);
       }
@@ -78,7 +94,11 @@ import { FieldComponent } from '../../shared/field/field.component';
       input:focus {
         border-color: var(--color-primary);
         box-shadow: 0 0 0 2px var(--color-primary-soft);
-        outline: none;
+        outline: 2px solid var(--color-focus);
+        outline-offset: 2px;
+      }
+      input[aria-invalid='true'] {
+        border-color: var(--color-error);
       }
     `,
   ],
@@ -89,6 +109,7 @@ export class SignInComponent {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
+  readonly sessionExpiredMessage = AUTH_MESSAGES.sessionExpired;
   readonly submitting = signal(false);
   readonly formError = signal<string | null>(null);
   readonly expired = signal(this.route.snapshot.queryParamMap.get('reason') === 'expired');
@@ -103,7 +124,7 @@ export class SignInComponent {
     if (!field.touched || field.valid) {
       return null;
     }
-    return control === 'email' ? 'Enter a valid email address' : 'Enter your password';
+    return control === 'email' ? FIELD_MESSAGES.email : FIELD_MESSAGES.password;
   }
 
   submit(): void {
@@ -121,7 +142,13 @@ export class SignInComponent {
       },
       error: (error: unknown) => {
         this.submitting.set(false);
-        this.formError.set(apiErrorMessage(error));
+        const apiError = readApiError(error);
+        // Requirement 1.5: a wrong password and an unknown email read the same.
+        this.formError.set(
+          apiError.code === 'invalid_credentials'
+            ? AUTH_MESSAGES.invalidCredentials
+            : apiErrorMessage(error),
+        );
       },
     });
   }

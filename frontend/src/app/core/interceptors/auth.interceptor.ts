@@ -19,7 +19,8 @@ function isAuthRequest(url: string): boolean {
 
 /**
  * Adds the access token to every API request and, on a 401, tries one refresh
- * before giving up and sending the person to the sign-in page.
+ * before giving up and sending the person to the sign-in page
+ * (requirements 1.6 and 23.6).
  */
 export const authInterceptor: HttpInterceptorFn = (
   request: HttpRequest<unknown>,
