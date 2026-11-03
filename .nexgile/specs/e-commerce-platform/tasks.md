@@ -1,6 +1,6 @@
 # Tasks: Enterprise-Grade E-Commerce Platform
 
-- [ ] 1. Project setup
+- [x] 1. Project setup
   - [x] 1.1 Project setup: repository, Flask API skeleton and Angular workspace
     - Create the root `package.json` with `install:all`, `test` and `dev` scripts, `README.md` with the commands of `## Build and run`, and `.gitignore` with `.env`, `backend/.venv/`, `backend/uploads/`, `*.db` and `node_modules/`.
     - Build the Flask app factory in `backend/app/__init__.py` with config from environment variables, the error envelope handler, `GET /api/health`, and the SQLAlchemy models, Flask-Migrate migrations and seed script for every table in `design.md` (users, roles, permissions, user_roles, role_permissions, refresh_tokens, password_reset_tokens, categories, brands, products, product_images, product_variants, product_attributes, product_attribute_values, product_variant_values, inventory, inventory_movements, addresses, carts, cart_items, wishlists, wishlist_items, orders, order_items, order_status_history, payments, coupons, coupon_redemptions, reviews, audit_logs, newsletter_subscribers), with `PRAGMA foreign_keys = ON`, integer-cent money columns and the indexes the design lists.
@@ -14,7 +14,7 @@
     - _Verify: npm test --workspace backend -- tests/test_seed.py_
     - _Verify: npm test --workspace frontend -- app.spec_
     - _Issue: #1_
-  - [ ] 1.2 Project setup: the API every screen calls
+  - [x] 1.2 Project setup: the API every screen calls
     - Build every endpoint of the `## API contract` in `design.md` as blueprints under `backend/app/api/v1/` with Marshmallow validation, services and repositories: auth (register, login, refresh, logout, forgot-password, reset-password, change-password), users (profile, addresses, my reviews), catalog (products, search, product details, reviews list, categories, brands, storefront home, newsletter), cart (items, coupon, merge), wishlist, checkout (summary, place-order), orders (list, detail, cancel), payments (mock gateway, refunds), reviews (submit), admin (products, images, variants, bulk, categories, brands, customers, orders, status, refund, invoice, export, inventory, movements, coupons, reviews, users, audit logs), analytics (overview, sales) and reports (data, CSV export).
     - Implement the business rules in services: backend totals (line, subtotal, coupon, shipping, tax, total), coupon validation, transactional stock reservation, order number generation, status transitions, cancellation with stock release and immediate full mock refund, audit log writes, permission decorators and ownership checks, rate limiting on the auth endpoints, and the mock gateway that accepts a 16-digit card with a future expiry, fails on a card ending `0000` and cancels on `9999` without storing card data.
     - Write the pytest suite that starts its own temporary SQLite database per module, runs the migrations against it and calls each endpoint through the Flask test client, including the two-thread test for the last unit of stock.
