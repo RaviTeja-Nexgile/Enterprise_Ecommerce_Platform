@@ -1,7 +1,7 @@
 # Tasks: Enterprise-Grade E-Commerce Platform
 
 - [ ] 1. Project setup
-  - [ ] 1.1 Project setup: repository, Flask API skeleton and Angular workspace
+  - [x] 1.1 Project setup: repository, Flask API skeleton and Angular workspace
     - Create the root `package.json` with `install:all`, `test` and `dev` scripts, `README.md` with the commands of `## Build and run`, and `.gitignore` with `.env`, `backend/.venv/`, `backend/uploads/`, `*.db` and `node_modules/`.
     - Build the Flask app factory in `backend/app/__init__.py` with config from environment variables, the error envelope handler, `GET /api/health`, and the SQLAlchemy models, Flask-Migrate migrations and seed script for every table in `design.md` (users, roles, permissions, user_roles, role_permissions, refresh_tokens, password_reset_tokens, categories, brands, products, product_images, product_variants, product_attributes, product_attribute_values, product_variant_values, inventory, inventory_movements, addresses, carts, cart_items, wishlists, wishlist_items, orders, order_items, order_status_history, payments, coupons, coupon_redemptions, reviews, audit_logs, newsletter_subscribers), with `PRAGMA foreign_keys = ON`, integer-cent money columns and the indexes the design lists.
     - The seed script creates the five test logins of `## Test logins` with Argon2id hashes, at least 8 categories, at least 30 published products with images, brands, variants, inventory, sample orders in different statuses, reviews, coupons and inventory movements; it does nothing when the database already holds users and never creates the test logins when `NODE_ENV` is `production`.
