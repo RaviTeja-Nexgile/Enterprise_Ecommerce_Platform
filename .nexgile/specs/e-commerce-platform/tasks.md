@@ -61,8 +61,8 @@
     - _Verify: npm test --workspace frontend -- catalog_
     - _Issue: #5_
 
-- [ ] 5. Product details page
-  - [ ] 5.1 Product details with gallery, variants, reviews and related products
+- [x] 5. Product details page
+  - [x] 5.1 Product details with gallery, variants, reviews and related products
     - Build `/products/:slug` from `GET /api/v1/products/{id_or_slug}`: image gallery with thumbnails and click-to-zoom, name, SKU, prices and discount, stock availability, description, specifications, variant chips that update SKU, price and stock, quantity selector, "Add to cart", "Add to wishlist", rating summary, approved reviews, related products and recently viewed products (at most 6, kept in local storage).
     - Disable "Add to cart" with "Out of stock" when the selected product or variant has no stock, send a signed-out wishlist click to `/sign-in`, and write the Jest tests for the gallery, the variant switch and the out-of-stock state.
     - Style it as `## Look and feel` describes the product details screen, with the sticky Add to cart bar on phone.
@@ -174,8 +174,8 @@
     - _Verify: npm test --workspace frontend -- admin-customers_
     - _Issue: #16_
 
-- [ ] 15. Admin order management
-  - [ ] 15.1 Order table, order details and status changes
+- [x] 15. Admin order management
+  - [x] 15.1 Order table, order details and status changes
     - Build `/admin/orders` from `GET /api/v1/admin/orders`: a table of 20 rows with order number, customer, date, status, payment status and total, search by order number and filters by status and date, and the order details with items, totals, customer, addresses, payment and full status history.
     - Add the next-status action through `PATCH /api/v1/admin/orders/{id}/status` with "This status change is not allowed", the cancel and refund actions, and write the Jest tests for the filters, the status change and the refusal.
     - _Requirements: 15.1, 15.2, 15.3, 15.4, 15.5, 15.6, 21.4, 21.5, 23.1, 23.4_
