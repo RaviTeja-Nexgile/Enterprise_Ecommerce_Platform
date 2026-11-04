@@ -55,12 +55,26 @@ export interface ProductVariant {
   available_quantity?: number;
 }
 
+export interface ProductAttribute {
+  name: string;
+  values: string[];
+}
+
+export interface RatingSummary {
+  average: number;
+  count: number;
+  counts: Record<string, number>;
+}
+
 export interface ProductDetail extends ProductSummary {
   description?: string | null;
+  status?: string;
   images: ProductImage[];
   variants: ProductVariant[];
-  attributes?: Record<string, string>[];
+  attributes?: ProductAttribute[];
+  reviews?: Review[];
   related?: ProductSummary[];
+  rating_summary?: RatingSummary;
 }
 
 export interface Review {
